@@ -1,27 +1,15 @@
 var express = require('express');
 var mysql = require('mysql');
+var db = require('./app/db');
+var routes = require('./app/routes');
 
 var app = express();
+app.use(express.static('./public'));
+
+var con = mysql.createConnection(db);
+con.connect();
 
 
-app.get('/',function(req,res){
-
-    var con = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '1234',
-        database: 'sakila'
-    });
-
-    con.connect();
-
-    con.query("SELECT 1+1 AS solution, 2+2 AS othersolution", function(error, results,fields){
-        if(error){
-            throw error;
-        }
-        console.log(results);
-        res.json(results);
-    });
-});
 
 app.listen(8000);
+console.log("Server iniciado en el puerto 8000");
